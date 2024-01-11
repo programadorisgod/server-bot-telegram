@@ -42,5 +42,12 @@ export const listCommandsDefault:Array<ICommand> = [
       command: " ",
       description: " ",
       creator: " "
-    }
+    },
+    {
+      type: "text",
+      name: "all",
+      command: " ",
+      description: " ",
+      creator: " " 
+      }
    ]

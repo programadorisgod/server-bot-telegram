@@ -15,6 +15,7 @@ class CustomError extends Error {
 
 const HandleError = (error: CustomError , res: Response) => {
     if (error instanceof CustomError) {
+        console.log(error._message)
         res.status(error._code).json({error: error._message})
     }else{
         res.status(500).json({error: "Internal server error"})

@@ -7,7 +7,6 @@ import { listCommandsDefault } from "@utils/listCommands";
 
 const findChatById = async (id:string): Promise<IChat | Error> => {
   try {
-
       const chat = await Chat.findOne({ chatId: id })
 
       if (!chat) {

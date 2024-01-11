@@ -67,6 +67,51 @@ const editCommand = async (id:string, description:string, name:string): Promise<
     }
 }
 
+const editCommandAll = async (id:string, nameCommand:string, username:string):Promise<{} | Error> => {
+     try {
+        
+        const chat = await findChatById(id)
+
+        if(chat instanceof Error || chat instanceof CustomError){
+            throw chat
+        }
+
+        let command = chat.list.find(c => c.name === nameCommand)
+
+        if (!command) {
+            throw new CustomError(403, "Command not allowed")
+        }
+
+        const usersCommandAll = command.command.split(" ")
+        
+        const userFind = usersCommandAll.findIndex(u => u === username)
+
+        if (userFind === -1) {
+            console.log(username)
+
+            usersCommandAll.push(username)
+
+            command.command = usersCommandAll.join(" ")
+
+            await chat.save()
+
+            return {message: "username added"}
+
+        }else{
+            throw new CustomError(304, "username not added")
+        }
+
+        
+
+
+     } catch ( error ) {
+        throw error
+     }
+}
+
+
+
+
 const deleteCommand = async (id:string, name:string):Promise<Error | {}> => {
     
     try {
@@ -98,4 +143,4 @@ const deleteCommand = async (id:string, name:string):Promise<Error | {}> => {
 
 
 
-export { editCommand, addCommand, deleteCommand}
+export { editCommand, addCommand, deleteCommand, editCommandAll}

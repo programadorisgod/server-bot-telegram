@@ -1,4 +1,4 @@
-import { addCommand, deleteCommand, editCommand } from "@services/command/command"
+import { addCommand, deleteCommand, editCommand, editCommandAll } from "@services/command/command"
 import { CustomError, HandleError } from "@utils/httpError"
 import { Request, Response } from "express"
 
@@ -33,6 +33,18 @@ const editCommandBot = async ( req:Request, res:Response ) => {
   }
 }
 
+const editCommandAllBot = async(req:Request, res:Response) => {
+  try {
+    const { id, nameCommand, username } = req.params
+    
+    const chat = await editCommandAll( id, nameCommand, username )
+    
+    res.status(201).json(chat)
+  } catch (error: CustomError | any) {
+    HandleError(error, res)
+  }
+}
+
 const deleteCommandBot = async (req:Request, res:Response) => {
   try{
 
@@ -47,4 +59,4 @@ const deleteCommandBot = async (req:Request, res:Response) => {
   }
 }
 
-export { editCommandBot, addCommandBot, deleteCommandBot }
+export { editCommandBot, addCommandBot, deleteCommandBot, editCommandAllBot }
