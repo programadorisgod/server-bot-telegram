@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createChat } from '@services/chat/createChat';
+import { createChat, findChatById } from '@services/chat/createChat';
 import { CustomError, HandleError } from '@utils/httpError';
 import { IChat } from '@interfaces/chat.interface';
 
@@ -20,7 +20,19 @@ const createChatBot = async (req:Request, res:Response) => {
       }
 }
 
+const findChatByIdBot =async (req:Request, res:Response) => {
+     try {
+
+       const { id } = req.params
+       const chat = await findChatById(id)
+       res.status(200).json({chat})
+
+     } catch (error:CustomError | any) {
+       HandleError(error, res)
+     }
+}
 
 
 
-export {createChatBot}
+
+export { createChatBot, findChatByIdBot }
