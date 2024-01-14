@@ -26,9 +26,10 @@ app.use(RouterCommand)
 
 connectionDatabase()
 
-
 findPort(PORT).then(port => {
     app.listen(port, ()=> {
-        console.log(`Server running on port http://localhost:${port}`)
+        if(process.env.NODE_ENV === 'development'){
+          console.log(`Server running on port http://localhost:${port}`)
+        }
     })
 })

@@ -24,7 +24,9 @@ const findChatByIdBot =async (req:Request, res:Response) => {
      try {
 
        const { id } = req.params
+       
        const chat = await findChatById(id)
+
        res.status(200).json({chat})
 
      } catch (error:CustomError | any) {
