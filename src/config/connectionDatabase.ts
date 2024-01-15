@@ -1,15 +1,15 @@
-import {connect} from "mongoose"
-import {config} from "dotenv"
-import  "colors"
+import { connect } from 'mongoose'
+import { config } from 'dotenv'
+import 'colors'
 
 config()
 
-const DB_URI = process.env.DB_URI ?? ""
+const DB_URI = process.env.DB_URI ?? ''
 export const connectionDatabase = async (): Promise<void> => {
-        try {
-          await connect(DB_URI)
-          console.log("[INFO]: Connected to database".green)
-        } catch (error) {
-         console.log("[ERROR]: Error to connect to database".red, error)
-        }
+  try {
+    await connect(DB_URI)
+    console.log('[INFO]: Connected to database'.green)
+  } catch (error) {
+    console.log('[ERROR]: Error to connect to database'.red, error)
+  }
 }

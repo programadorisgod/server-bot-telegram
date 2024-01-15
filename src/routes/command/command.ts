@@ -1,5 +1,10 @@
-import { addCommandBot, deleteCommandBot, editCommandAllBot, editCommandBot } from "@controllers/command/command"
-import { Router } from "express"
+import {
+  addCommandBot,
+  deleteCommandBot,
+  editCommandAllBot,
+  editCommandBot
+} from '@controllers/command/command'
+import { Router } from 'express'
 
 const RouterCommand = Router()
 

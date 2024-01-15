@@ -13,10 +13,10 @@
     }
  */
 
-import { ICommand } from "@interfaces/command.interface"
+import { type ICommand } from '@interfaces/command.interface'
 
 export interface IChat {
-    [x: string]: any
-    chatId:number
-    list: Array<ICommand>
+  [x: string]: any
+  chatId: number
+  list: ICommand[]
 }
