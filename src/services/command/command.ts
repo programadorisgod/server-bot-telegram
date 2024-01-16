@@ -30,7 +30,7 @@ const addCommand = async (
     const newChatCreated = await Chat.create(newChat)
 
     newChatCreated.list.push(command)
-    newChatCreated.save()
+    await newChatCreated.save()
 
     return { message: 'Command Created' }
   }
@@ -41,27 +41,23 @@ const editCommand = async (
   description: string,
   name: string
 ): Promise<IChat | Error> => {
-  try {
-    const chat = await findChatById(id)
+  const chat = await findChatById(id)
 
-    if (chat instanceof Error || chat instanceof CustomError) {
-      throw chat
-    }
-
-    const command = chat.list.find((command) => command.name === name)
-
-    if (!command) {
-      throw new CustomError(404, 'Command not found')
-    }
-
-    command.description = description
-
-    chat.save()
-
-    return chat
-  } catch (error) {
-    throw error
+  if (chat instanceof Error || chat instanceof CustomError) {
+    throw chat
   }
+
+  const command = chat.list.find((command) => command.name === name)
+
+  if (command === null || command === undefined) {
+    throw new CustomError(404, 'Command not found')
+  }
+
+  command.description = description
+
+  await chat.save()
+
+  return chat
 }
 
 const editCommandAll = async (
@@ -69,38 +65,34 @@ const editCommandAll = async (
   nameCommand: string,
   username: string
 ): Promise<Record<string, unknown> | Error> => {
-  try {
-    const chat = await findChatById(id)
+  const chat = await findChatById(id)
 
-    if (chat instanceof Error || chat instanceof CustomError) {
-      throw chat
-    }
+  if (chat instanceof Error || chat instanceof CustomError) {
+    throw chat
+  }
 
-    const command = chat.list.find((c) => c.name === nameCommand)
+  const command = chat.list.find((c) => c.name === nameCommand)
 
-    if (!command) {
-      throw new CustomError(403, 'Command not allowed')
-    }
+  if (command === null || command === undefined) {
+    throw new CustomError(403, 'Command not allowed')
+  }
 
-    const usersCommandAll = command.command.split(' ')
+  const usersCommandAll = command.command.split(' ')
 
-    const userFind = usersCommandAll.findIndex((u) => u === username)
+  const userFind = usersCommandAll.findIndex((u) => u === username)
 
-    if (userFind === -1) {
-      console.log(username)
+  if (userFind === -1) {
+    console.log(username)
 
-      usersCommandAll.push(username)
+    usersCommandAll.push(username)
 
-      command.command = usersCommandAll.join(' ')
+    command.command = usersCommandAll.join(' ')
 
-      await chat.save()
+    await chat.save()
 
-      return { message: 'username added' }
-    } else {
-      throw new CustomError(304, 'username not added')
-    }
-  } catch (error) {
-    throw error
+    return { message: 'username added' }
+  } else {
+    throw new CustomError(304, 'username not added')
   }
 }
 
@@ -108,26 +100,23 @@ const deleteCommand = async (
   id: string,
   name: string
 ): Promise<Error | Record<string, unknown>> => {
-  try {
-    const chat = await findChatById(id)
-    if (chat instanceof Error || chat instanceof CustomError) throw chat
+  const chat = await findChatById(id)
 
-    const command = chat.list.find((command) => command.name === name)
+  if (chat instanceof Error || chat instanceof CustomError) throw chat
 
-    if (!command) {
-      throw new CustomError(404, 'Command not found')
-    }
+  const command = chat.list.find((command) => command.name === name)
 
-    const commandFilter = chat.list.filter((command) => command.name !== name)
-
-    chat.list = commandFilter
-
-    chat.save()
-
-    return { message: 'Command deleted' }
-  } catch (error) {
-    throw error
+  if (command === null || command === undefined) {
+    throw new CustomError(404, 'Command not found')
   }
+
+  const commandFilter = chat.list.filter((command) => command.name !== name)
+
+  chat.list = commandFilter
+
+  await chat.save()
+
+  return { message: 'Command deleted' }
 }
 
 export { editCommand, addCommand, deleteCommand, editCommandAll }

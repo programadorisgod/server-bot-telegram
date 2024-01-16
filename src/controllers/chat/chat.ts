@@ -12,7 +12,7 @@ const createChatBot = async (req: Request, res: Response): Promise<void> => {
     res.status(201).json({ chatCreated })
   } catch (error: unknown) {
     if (error instanceof Error || error instanceof CustomError) {
-      HandleError(error, res)
+      await HandleError(error, res)
     }
   }
 }
@@ -26,7 +26,7 @@ const findChatByIdBot = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({ chat })
   } catch (error: unknown) {
     if (error instanceof Error || error instanceof CustomError) {
-      HandleError(error, res)
+      await HandleError(error, res)
     }
   }
 }

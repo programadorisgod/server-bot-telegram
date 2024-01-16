@@ -6,17 +6,13 @@ import { CustomError } from '@utils/httpError'
 import { listCommandsDefault } from '@utils/listCommands'
 
 const findChatById = async (id: string): Promise<IChat | Error> => {
-  try {
-    const chat: IChat | null = await Chat.findOne({ chatId: id })
+  const chat: IChat | null = await Chat.findOne({ chatId: id })
 
-    if (!chat) {
-      throw chat
-    }
-
-    return chat
-  } catch (error) {
+  if (chat === null) {
     throw new CustomError(404, 'Chat not found')
   }
+
+  return chat
 }
 
 const createChat = async (chat: IChat): Promise<IChat | Error> => {
@@ -25,7 +21,7 @@ const createChat = async (chat: IChat): Promise<IChat | Error> => {
     const chatCreated: IChatModel = await Chat.create(chat)
     return chatCreated
   } catch (error: any) {
-    return new CustomError(500, 'Error to create chat')
+    throw new CustomError(500, 'Error to create chat')
   }
 }
 

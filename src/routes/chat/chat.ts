@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { createChatBot, findChatByIdBot } from '@controllers/chat/chat'
 import { Router } from 'express'
 

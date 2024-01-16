@@ -1,4 +1,3 @@
-import { IChat } from '@interfaces/chat.interface'
 import { type IChatModel } from '@interfaces/chatModel.interface'
 import { Schema, model } from 'mongoose'
 

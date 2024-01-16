@@ -8,7 +8,7 @@ import {
 import { CustomError, HandleError } from '@utils/httpError'
 import { type Request, type Response } from 'express'
 
-const addCommandBot = async (req: Request, res: Response) => {
+const addCommandBot = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params
     const command: ICommand = req.body
@@ -18,7 +18,7 @@ const addCommandBot = async (req: Request, res: Response) => {
     res.status(200).json(chatEdited)
   } catch (error: unknown) {
     if (error instanceof Error || error instanceof CustomError) {
-      HandleError(error, res)
+      await HandleError(error, res)
     }
   }
 }
@@ -27,12 +27,12 @@ const editCommandBot = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     const { description, name } = req.body
 
-    const chat = await editCommand(id, description, name)
+    const chat = await editCommand(id, String(description), String(name))
 
     res.status(200).json({ chat })
   } catch (error: unknown) {
     if (error instanceof Error || error instanceof CustomError) {
-      HandleError(error, res)
+      await HandleError(error, res)
     }
   }
 }
@@ -49,7 +49,7 @@ const editCommandAllBot = async (
     res.status(201).json(chat)
   } catch (error: unknown) {
     if (error instanceof Error || error instanceof CustomError) {
-      HandleError(error, res)
+      await HandleError(error, res)
     }
   }
 }
@@ -59,11 +59,11 @@ const deleteCommandBot = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     const { name } = req.body
 
-    const commandDeleted = await deleteCommand(id, name)
+    const commandDeleted = await deleteCommand(id, String(name))
     res.status(200).json(commandDeleted)
   } catch (error: unknown) {
     if (error instanceof Error || error instanceof CustomError) {
-      HandleError(error, res)
+      await HandleError(error, res)
     }
   }
 }

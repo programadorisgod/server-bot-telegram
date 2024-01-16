@@ -23,9 +23,9 @@ app.get('/', (_, res) => {
 app.use(routerChat)
 app.use(RouterCommand)
 
-connectionDatabase()
+void connectionDatabase()
 
-findPort(PORT).then((port) => {
+void findPort(PORT).then((port) => {
   app.listen(port, () => {
     if (process.env.NODE_ENV === 'development') {
       console.log(`Server running on port http://localhost:${port}`)
