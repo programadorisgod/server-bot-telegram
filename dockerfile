@@ -10,7 +10,7 @@ COPY package*.json  ./
 
 COPY pnpm-lock.yaml ./
 
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 
 
@@ -26,7 +26,7 @@ RUN npm run build
 
 
 
-#stage release
+#Stage release 
 FROM node:20-alpine3.19 as release
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
@@ -34,7 +34,7 @@ ENV PNPM_HOME=/usr/local/bin
 
 WORKDIR /usr/src/app
 
-ENV DB_URI=TUSTRINGCONEXIONAQUÍ
+ENV DB_URI=
 
 COPY  --from=base /usr/src/app/package*.json ./
 
