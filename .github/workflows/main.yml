@@ -39,6 +39,6 @@ jobs:
         run: npm i -g @railway/cli
 
       - name: Deploy to railway
-        run: railway up --service ${{secrets.PROJECT_ID}}
+        run: railway up --service sunny-start
         env:
           RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
