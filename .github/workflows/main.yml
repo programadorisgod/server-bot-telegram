@@ -1,18 +1,51 @@
-name: test 
+name: Deploy to railway
 
-on: [push]
+on:
+  push:
+    branches: [master]
 
 jobs:
-   build:
-     runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-     steps: 
-        -  name: Checkout repo
-           uses: actions/checkout@v4
-        -  name: Setup node
-           uses: actions/setup-node@v4
-           with: 
-                  node-version: 20
-        - name: Install dependences with npm ci, recomended for continuos integration      
-          run: npm ci 
-        
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+        # Add support for more platforms with QEMU (optional)
+        # https://github.com/docker/setup-qemu-action
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+              push: true
+              tags: camilodevp/server-bot-telegram:latest
+      - name: Deploy to railway
+        run: | 
+         curl -X POST \
+         https://api.railway.app/projects/${{env.RAILWAY_TOKEN}}/deployments \
+         -H "Content-Type: application/json" \
+         -d '{
+            "ref": "master",
+            "name": "My Deployment",
+            "image": "camilodevp/server-bot-telegram:latest"
+         }'
+
+        env:
+          RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
