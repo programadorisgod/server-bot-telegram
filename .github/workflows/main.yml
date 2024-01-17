@@ -38,8 +38,6 @@ jobs:
       - name: Install Railway
         run: npm i -g @railway/cli
 
-      - name: Connect project
-        run : railway link ${{secrets.RAILWAY_TOKEN}}
       - name: Deploy to railway
         run: railway up
         env:
