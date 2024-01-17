@@ -8,6 +8,7 @@ import { connectionDatabase } from '@config/connectionDatabase'
 import RouterCommand from '@routes/command/command'
 
 const PORT = process.env.PORT ?? 3000
+
 const app = express()
 
 app.disable('x-powered-by')
