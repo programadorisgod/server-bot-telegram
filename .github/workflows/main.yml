@@ -34,15 +34,13 @@ jobs:
         with:
               push: true
               tags: camilodevp/server-bot-telegram:latest
+
+      - name: Install Railway
+        run: npm i -g @railway/cli
+
+      - name: Connect project
+        run : railway link ${{secrets.RAILWAY_TOKEN}}
       - name: Deploy to railway
-        run: | 
-         curl -X POST \
-         https://api.railway.app/projects/${{env.RAILWAY_TOKEN}}/deployments \
-         -H "Content-Type: application/json" \
-         -d '{
-            "ref": "master",
-            "name": "My Deployment",
-            "image": "camilodevp/server-bot-telegram:latest"
-         }'
+        run: railway up
         env:
           RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
