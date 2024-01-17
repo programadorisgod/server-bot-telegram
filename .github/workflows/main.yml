@@ -14,5 +14,5 @@ jobs:
            with: 
                   node-version: 20
         - name: Install dependences with npm ci, recomended for continuos integration      
-        - run: npm ci 
+          run: npm ci 
         
