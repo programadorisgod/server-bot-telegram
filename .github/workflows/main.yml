@@ -44,6 +44,5 @@ jobs:
             "name": "My Deployment",
             "image": "camilodevp/server-bot-telegram:latest"
          }'
-
         env:
           RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
