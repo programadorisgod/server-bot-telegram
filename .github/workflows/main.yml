@@ -8,11 +8,11 @@ jobs:
 
      steps: 
         -  name: Checkout repo
-        - uses: actions/checkout@v4
+           uses: actions/checkout@v4
         -  name: Setup node
-        - uses: actions/setup-node@v4
-          with: 
-              node-version: 20
+           uses: actions/setup-node@v4
+           with: 
+                  node-version: 20
         - name: Install dependences with npm ci, recomended for continuos integration      
         - run: npm ci 
         
