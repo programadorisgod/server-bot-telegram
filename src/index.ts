@@ -33,3 +33,5 @@ void findPort(PORT).then((port) => {
     }
   })
 })
+
+export default app
