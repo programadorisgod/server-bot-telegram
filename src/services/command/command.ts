@@ -16,7 +16,6 @@ const getCommandByName = async (
   }
 
   const command = chat.list.find((c) => c.name === nameCommand)
-
   if (command === null || command === undefined) {
     throw new CustomError(404, 'Command not Found')
   }
@@ -34,7 +33,6 @@ const addCommand = async (
     if (chat instanceof Error) {
       throw chat
     }
-
     const findCommand = chat.list.find((c: ICommand) => c.name === command.name)
     if (findCommand !== undefined) {
       throw new CustomError(409, 'The command already exists')
@@ -42,9 +40,11 @@ const addCommand = async (
     chat.list.push(command)
 
     chat.save()
-
     return { message: 'Command Created' }
   } catch (error) {
+    if (error instanceof CustomError && error._code === 409) {
+      throw error
+    }
     const newChat: IChat = {
       chatId: parseInt(id),
       list: listCommandsDefault

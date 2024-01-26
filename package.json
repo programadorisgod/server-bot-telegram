@@ -31,7 +31,8 @@
     "ioredis": "^5.3.2",
     "mongoose": "^8.1.1",
     "morgan": "^1.10.0",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/ioredis": "^5.0.0",
