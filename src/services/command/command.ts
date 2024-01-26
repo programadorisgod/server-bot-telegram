@@ -36,7 +36,6 @@ const addCommand = async (
     }
 
     const findCommand = chat.list.find((c: ICommand) => c.name === command.name)
-    console.log(findCommand !== null)
     if (findCommand !== undefined) {
       throw new CustomError(409, 'The command already exists')
     }

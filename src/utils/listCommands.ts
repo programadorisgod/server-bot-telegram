@@ -49,5 +49,12 @@ export const listCommandsDefault: ICommand[] = [
     command: ' ',
     description: ' ',
     creator: ' '
+  },
+  {
+    type: 'text',
+    name: 'tr',
+    command: ' ',
+    description: ' ',
+    creator: ' '
   }
 ]
