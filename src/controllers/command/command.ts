@@ -24,7 +24,7 @@ const getCommandByNameBot = async (
     } else {
       const command = await getCommandByName(id_chat, name_command)
       await redis.set('bot', JSON.stringify(command))
-      await redis.expire('bot', 60)
+      await redis.expire('bot', 30)
       res.status(200).json({ command })
     }
   } catch (error) {
