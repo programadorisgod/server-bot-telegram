@@ -7,7 +7,6 @@ import {
   editCommandAll,
   getCommandByName
 } from '@services/command/command'
-import redis from '@utils/cacheInit'
 import { HandleError } from '@utils/httpError'
 
 import { type Request, type Response } from 'express'
@@ -17,16 +16,9 @@ const getCommandByNameBot = async (
   res: Response
 ): Promise<void> => {
   try {
-    const cache = await redis.get('bot')
     const { id_chat, name_command } = req.params
-    if (cache !== null) {
-      res.status(200).json(JSON.parse(cache))
-    } else {
-      const command = await getCommandByName(id_chat, name_command)
-      await redis.set('bot', JSON.stringify(command))
-      await redis.expire('bot', 30)
-      res.status(200).json({ command })
-    }
+    const command = await getCommandByName(id_chat, name_command)
+    res.status(200).json({ command })
   } catch (error) {
     if (error instanceof Error) {
       await HandleError(error, res)
