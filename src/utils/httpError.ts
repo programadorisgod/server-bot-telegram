@@ -15,6 +15,7 @@ const HandleError = async (
   res: Response
 ): Promise<void> => {
   if (error instanceof CustomError) {
+    console.log('entro aquí')
     res.status(error._code).json({ error: error._message })
   } else {
     res.status(500).json({ error: 'Internal server error' })

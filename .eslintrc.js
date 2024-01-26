@@ -40,7 +40,7 @@ module.exports = {
             ['@config', './src/config'],
             ['@controllers', './src/controllers'],
             ['@routes', './src/routes'],
-            ['@middlewares', './src/middleware'],
+            ['@middlewares', './src/middlewares'],
             ['@models', './src/models/'],
             ['@services', './src/services'],
             ['@utils', './src/utils/'],

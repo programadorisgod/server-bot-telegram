@@ -8,6 +8,7 @@ import { connectionDatabase } from '@config/connectionDatabase'
 import RouterCommand from '@routes/command/command'
 
 const PORT = process.env.PORT ?? 3000
+
 const app = express()
 
 app.disable('x-powered-by')
@@ -24,7 +25,6 @@ app.use(routerChat)
 app.use(RouterCommand)
 
 void connectionDatabase()
-
 void findPort(PORT).then((port) => {
   app.listen(port, () => {
     if (process.env.NODE_ENV === 'development') {
@@ -32,3 +32,5 @@ void findPort(PORT).then((port) => {
     }
   })
 })
+
+export default app
