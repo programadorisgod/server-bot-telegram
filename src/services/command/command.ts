@@ -29,7 +29,6 @@ const addCommand = async (
   command: ICommand
 ): Promise<Record<string, unknown> | Error> => {
   try {
-    
     const chat = await findChatById(id)
 
     if (chat instanceof Error) {
