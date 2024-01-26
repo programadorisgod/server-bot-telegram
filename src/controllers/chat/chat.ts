@@ -1,7 +1,8 @@
 import { type Request, type Response } from 'express'
 import { createChat, findChatById } from '@services/chat/createChat'
-import { CustomError, HandleError } from '@utils/httpError'
+import { HandleError } from '@utils/httpError'
 import { type IChat } from '@interfaces/chat.interface'
+import redis from '@utils/cacheInit'
 
 const createChatBot = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -11,7 +12,7 @@ const createChatBot = async (req: Request, res: Response): Promise<void> => {
 
     res.status(201).json({ chatCreated })
   } catch (error: unknown) {
-    if (error instanceof Error || error instanceof CustomError) {
+    if (error instanceof Error) {
       await HandleError(error, res)
     }
   }
@@ -20,12 +21,19 @@ const createChatBot = async (req: Request, res: Response): Promise<void> => {
 const findChatByIdBot = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params
+    const cacheData = await redis.get('cachedData')
 
-    const chat = await findChatById(id)
+    if (cacheData != null) {
+      res.status(200).json(JSON.parse(cacheData))
+    } else {
+      const chat = await findChatById(id)
+      await redis.set('cachedData', JSON.stringify(chat))
+      await redis.expire('cachedData', 60)
 
-    res.status(200).json({ chat })
+      res.status(200).json(chat)
+    }
   } catch (error: unknown) {
-    if (error instanceof Error || error instanceof CustomError) {
+    if (error instanceof Error) {
       await HandleError(error, res)
     }
   }

@@ -3,7 +3,8 @@ import {
   addCommandBot,
   deleteCommandBot,
   editCommandAllBot,
-  editCommandBot
+  editCommandBot,
+  getCommandByNameBot
 } from '@controllers/command/command'
 import { Router } from 'express'
 
@@ -11,10 +12,10 @@ const RouterCommand = Router()
 
 const path = '/api/v1/command'
 
-RouterCommand.get(path)
-RouterCommand.post(`${path}/:id`, addCommandBot)
-RouterCommand.put(`${path}/:id`, editCommandBot)
-RouterCommand.put(`${path}/:id/:name_command/:username`, editCommandAllBot)
-RouterCommand.delete(`${path}/:id`, deleteCommandBot)
+RouterCommand.get(`${path}/:id_chat/:name_command`, getCommandByNameBot)
+RouterCommand.post(`${path}/:id_chat`, addCommandBot)
+RouterCommand.put(`${path}/:id_chat`, editCommandBot)
+RouterCommand.put(`${path}/:id_chat/:name_command/:username`, editCommandAllBot)
+RouterCommand.delete(`${path}/:id_chat`, deleteCommandBot)
 
 export default RouterCommand

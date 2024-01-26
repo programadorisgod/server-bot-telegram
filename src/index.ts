@@ -25,7 +25,6 @@ app.use(routerChat)
 app.use(RouterCommand)
 
 void connectionDatabase()
-
 void findPort(PORT).then((port) => {
   app.listen(port, () => {
     if (process.env.NODE_ENV === 'development') {

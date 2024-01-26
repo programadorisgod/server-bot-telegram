@@ -1,4 +1,4 @@
-import { connect } from 'mongoose'
+import mongoose, { connect } from 'mongoose'
 import { config } from 'dotenv'
 import 'colors'
 
@@ -13,3 +13,13 @@ export const connectionDatabase = async (): Promise<void> => {
     console.log('[ERROR]: Error to connect to database'.red, error)
   }
 }
+const closeConnectionDatabase = async (): Promise<void> => {
+  try {
+    await mongoose.disconnect()
+    console.log('[INFO]: closed conexion string ')
+  } catch (error) {
+    console.log('[ERROR:]:', error)
+  }
+}
+
+export default closeConnectionDatabase
