@@ -65,7 +65,6 @@ const editCommand = async (
   name: string
 ): Promise<IChat | Error> => {
   const chat = await findChatById(id)
-
   if (chat instanceof Error) {
     throw chat
   }

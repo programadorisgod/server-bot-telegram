@@ -17,7 +17,7 @@ const getCommandByNameBot = async (
 ): Promise<void> => {
   try {
     const { id_chat, name_command } = req.params
-    const command = await getCommandByName(id_chat, name_command)
+    const command = await getCommandByName(String(id_chat), name_command)
     res.status(200).json({ command })
   } catch (error) {
     if (error instanceof Error) {
@@ -31,7 +31,7 @@ const addCommandBot = async (req: Request, res: Response): Promise<void> => {
     const { id_chat } = req.params
     const command: ICommand = req.body
 
-    const chatEdited = await addCommand(id_chat, command)
+    const chatEdited = await addCommand(String(id_chat), command)
 
     res.status(200).json(chatEdited)
   } catch (error) {
@@ -44,8 +44,11 @@ const editCommandBot = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id_chat } = req.params
     const { description, name } = req.body
-
-    const chat = await editCommand(id_chat, String(description), String(name))
+    const chat = await editCommand(
+      String(id_chat),
+      String(description),
+      String(name)
+    )
 
     res.status(200).json({ chat })
   } catch (error: unknown) {
@@ -60,9 +63,9 @@ const editCommandAllBot = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id, name_command, username } = req.params
+    const { id_chat, name_command, username } = req.params
 
-    const chat = await editCommandAll(id, name_command, username)
+    const chat = await editCommandAll(String(id_chat), name_command, username)
 
     res.status(201).json(chat)
   } catch (error: unknown) {
@@ -77,7 +80,7 @@ const deleteCommandBot = async (req: Request, res: Response): Promise<void> => {
     const { id_chat } = req.params
     const { name } = req.body
 
-    const commandDeleted = await deleteCommand(id_chat, String(name))
+    const commandDeleted = await deleteCommand(String(id_chat), String(name))
     res.status(200).json(commandDeleted)
   } catch (error: unknown) {
     if (error instanceof Error) {
