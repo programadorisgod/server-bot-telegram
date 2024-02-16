@@ -3,9 +3,9 @@ import { config } from 'dotenv'
 config()
 
 const redis = new Redis({
-  host: process.env.host,
-  port: 57684,
-  password: process.env.password
+  host: process.env.HOST,
+  port: 50363,
+  password: process.env.PASS
 })
 
 export default redis

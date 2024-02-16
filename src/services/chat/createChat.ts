@@ -16,21 +16,29 @@ const findChatById = async (id: string): Promise<IChat | Error> => {
     return chat
   } catch (error) {
     if (error instanceof CustomError) {
-      return error
+      throw error
     }
-
     throw new CustomError(500, 'Id is malformed')
   }
 }
 
 const createChat = async (chat: IChat): Promise<IChat | Error> => {
   try {
+    const chatExist: IChat | Error | null = await Chat.findOne({
+      chatId: chat.chatId
+    })
+
+    if (chatExist !== null) {
+      throw new CustomError(400, 'Chat already exist')
+    }
+
     chat.list = listCommandsDefault
 
     const chatCreated: IChatModel = await Chat.create(chat)
 
     return chatCreated
   } catch (error) {
+    if (error instanceof CustomError) throw error
     throw new CustomError(500, 'Error to create chat')
   }
 }

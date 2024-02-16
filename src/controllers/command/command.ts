@@ -44,6 +44,7 @@ const editCommandBot = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id_chat } = req.params
     const { description, name } = req.body
+
     const chat = await editCommand(
       String(id_chat),
       String(description),
@@ -63,10 +64,10 @@ const editCommandAllBot = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id_chat, name_command, username } = req.params
+    const { id_chat, name, username } = req.params
 
-    const chat = await editCommandAll(String(id_chat), name_command, username)
-
+    const chat = await editCommandAll(String(id_chat), name, username)
+    console.log(chat, 'chat')
     res.status(201).json(chat)
   } catch (error: unknown) {
     if (error instanceof Error) {

@@ -6,6 +6,7 @@ import { findPort } from '@config/findPort'
 import routerChat from '@routes/chat/chat'
 import { connectionDatabase } from '@config/connectionDatabase'
 import RouterCommand from '@routes/command/command'
+import { swaggerDocs as v1SwaggerDocs } from './docs/swagger'
 
 const PORT = process.env.PORT ?? 3000
 
@@ -30,6 +31,8 @@ void findPort(PORT).then((port) => {
     if (process.env.NODE_ENV === 'development') {
       console.log(`Server running on port http://localhost:${port}`)
     }
+
+    v1SwaggerDocs(app, port)
   })
 })
 
