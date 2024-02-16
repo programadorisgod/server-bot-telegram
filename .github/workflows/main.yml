@@ -42,3 +42,5 @@ jobs:
         run: railway up --service furry-substance
         env:
           RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
+
+          
