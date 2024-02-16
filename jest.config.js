@@ -15,6 +15,7 @@ module.exports = {
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@interfaces/(.*)$': '<rootDir>/src/interfaces/$1',
     '^@models/(.*)$': '<rootDir>/src/models/$1',
+    '^@middlewares/(.*)': '<rootDir>/src/middlewares/$1'
     // Añade más alias según sea necesario
   },
   transform: {

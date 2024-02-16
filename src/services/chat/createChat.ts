@@ -16,9 +16,8 @@ const findChatById = async (id: string): Promise<IChat | Error> => {
     return chat
   } catch (error) {
     if (error instanceof CustomError) {
-      return error
+      throw error
     }
-
     throw new CustomError(500, 'Id is malformed')
   }
 }
