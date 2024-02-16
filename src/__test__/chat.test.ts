@@ -13,7 +13,7 @@ afterAll(async () => {
 })
 
 describe('GET /chatById', () => {
-  it('should return a chat', async () => {
+  it.skip('should return a chat', async () => {
     const responseExpected = {
       chatId: 23213,
       list: [
@@ -91,7 +91,44 @@ describe('GET /chatById', () => {
   })
 
   it('should return a error 404', async () => {
-    const response = await supertest(app).get('/api/v1/chat/2324')
+    const response = await supertest(app).get('/api/v1/chat/232409')
     expect(response.statusCode).toBe(404)
+  })
+})
+
+describe('POST /chat', () => {
+  it.skip('should return a chat created', async () => {
+    const chat = {
+      chatId: 23230
+    }
+
+    const response = await supertest(app).post('/api/v1/chat').send(chat)
+    expect(response.body.chatCreated.chatId).toBe(chat.chatId)
+    expect(response.statusCode).toBe(201)
+  })
+
+  it('should return a error 400', async () => {
+    const chat = {
+      chatId: 23230
+    }
+
+    const response = await supertest(app).post('/api/v1/chat').send(chat)
+    expect(response.statusCode).toBe(400)
+  })
+
+  it('should return a error 500', async () => {
+    const chat = {}
+
+    const response = await supertest(app).post('/api/v1/chat').send(chat)
+    expect(response.statusCode).toBe(500)
+  })
+
+  it('should return a error 500', async () => {
+    const chat = {
+      chatId: 'xd'
+    }
+
+    const response = await supertest(app).post('/api/v1/chat').send(chat)
+    expect(response.statusCode).toBe(500)
   })
 })

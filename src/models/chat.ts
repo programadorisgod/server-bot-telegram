@@ -17,7 +17,7 @@ import { Schema, model } from 'mongoose'
  */
 
 const chatSchema: Schema = new Schema({
-  chatId: { type: Number, required: true },
+  chatId: { type: Number, required: true, unique: true },
   list: [
     {
       type: { type: String, required: true },
