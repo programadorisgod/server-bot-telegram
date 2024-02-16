@@ -39,6 +39,6 @@ jobs:
         run: npm i -g @railway/cli
 
       - name: Deploy to railway
-        run: railway up --service gentle-finger
+        run: railway up --service crazy-shade
         env:
           RAILWAY_TOKEN: ${{secrets.RAILWAY_TOKEN}}
