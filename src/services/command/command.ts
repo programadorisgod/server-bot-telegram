@@ -2,6 +2,7 @@ import { type IChat } from '@interfaces/chat.interface'
 import { type ICommand } from '@interfaces/command.interface'
 import Chat from '@models/chat'
 import { findChatById } from '@services/chat/createChat'
+import canDelete from '@utils/canDelete'
 import { CustomError } from '@utils/httpError'
 import { listCommandsDefault } from '@utils/listCommands'
 
@@ -121,7 +122,9 @@ const editCommandAll = async (
 
 const deleteCommand = async (
   id: string,
-  name: string
+  name: string,
+  username: string,
+  role: string
 ): Promise<Error | Record<string, unknown>> => {
   const chat = await findChatById(id)
 
@@ -133,13 +136,27 @@ const deleteCommand = async (
     throw new CustomError(404, 'Command not found')
   }
 
-  const commandFilter = chat.list.filter((command) => command.name !== name)
+  if (canDelete(role)) {
+    const commandFilter = chat.list.filter((command) => command.name !== name)
 
-  chat.list = commandFilter
+    chat.list = commandFilter
 
-  await chat.save()
+    await chat.save()
 
-  return { message: 'Command deleted' }
+    return { message: 'Command deleted' }
+  }
+
+  if (canDelete(role, command, username)) {
+    const commandFilter = chat.list.filter((command) => command.name !== name)
+    chat.list = commandFilter
+    await chat.save()
+    return { message: 'Command deleted' }
+  }
+
+  throw new CustomError(
+    401,
+    'You are not have authorization to delete the command'
+  )
 }
 
 export {

@@ -31,8 +31,9 @@ RouterCommand.put(
   validateEditDataCommandAll,
   editCommandAllBot
 )
+
 RouterCommand.delete(
-  `${path}/:id_chat`,
+  `${path}/:id_chat/:username/:role`,
   validateDeleteCommand,
   deleteCommandBot
 )
@@ -263,9 +264,9 @@ export default RouterCommand
  *         description: Command not valid or username not added
  */
 /**
- * DELETE /api/v1/command/:id_chat
+ * DELETE /api/v1/command/:id_chat/:username/:role
  * @swagger
- * /command/{id_chat}:
+ * /command/{id_chat}/{username}/{role}:
  *   delete:
  *     tags:
  *       - Command
@@ -278,6 +279,18 @@ export default RouterCommand
  *         schema:
  *           type: number
  *         description: chat id
+ *       - in: path
+ *         name: role
+ *         required: true
+ *         schema:
+ *            type: string
+ *         description: role user
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: username
  *     requestBody:
  *       required: true
  *       content:
