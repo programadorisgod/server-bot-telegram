@@ -67,7 +67,6 @@ const editCommandAllBot = async (
     const { id_chat, name, username } = req.params
 
     const chat = await editCommandAll(String(id_chat), name, username)
-    console.log(chat, 'chat')
     res.status(201).json(chat)
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -78,10 +77,15 @@ const editCommandAllBot = async (
 
 const deleteCommandBot = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id_chat } = req.params
+    const { id_chat, username, role } = req.params
     const { name } = req.body
 
-    const commandDeleted = await deleteCommand(String(id_chat), String(name))
+    const commandDeleted = await deleteCommand(
+      id_chat,
+      String(name),
+      username,
+      role
+    )
     res.status(200).json(commandDeleted)
   } catch (error: unknown) {
     if (error instanceof Error) {
