@@ -155,7 +155,7 @@ const deleteCommand = async (
 
   throw new CustomError(
     401,
-    'You are not have authorization to delete the command'
+    'You dont have authorization to delete the command'
   )
 }
 
