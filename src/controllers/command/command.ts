@@ -78,6 +78,7 @@ const editCommandAllBot = async (
 const deleteCommandBot = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id_chat, username, role } = req.params
+
     const { name } = req.body
 
     const commandDeleted = await deleteCommand(
