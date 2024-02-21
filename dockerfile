@@ -34,7 +34,7 @@ RUN apk add --no-cache libstdc++ dumb-init \
 COPY --from=base /usr/local/bin/node /usr/local/bin/node
 
 USER node
-#variable de la base de datos
+#variable de la bd
 ENV DB_URI=
 
 COPY --from=build /project/node_modules ./node_modules
