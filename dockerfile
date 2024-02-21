@@ -1,52 +1,46 @@
-FROM node:20-alpine3.19 as base
+ARG ALPINE_VERSION=3.18
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+FROM node:20-alpine${ALPINE_VERSION} as base
 
-ENV PNPM_HOME=/usr/local/bin
+ARG DIR=/project
 
-WORKDIR /usr/src/app
+WORKDIR ${DIR}
 
-COPY package*.json  ./
+COPY package*.json .
 
-COPY pnpm-lock.yaml ./
+RUN npm ci --omit=dev
 
-RUN pnpm install
-
-
-
-#Stage build
 
 FROM base as build
 
-WORKDIR /usr/src/app
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+WORKDIR ${DIR}
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build 
 
 
+FROM alpine:${ALPINE_VERSION} as release 
 
-#Stage release 
-FROM node:20-alpine3.19 as release
+WORKDIR ${DIR}
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
-ENV PNPM_HOME=/usr/local/bin
+# Add required binaries
+RUN apk add --no-cache libstdc++ dumb-init \
+    && addgroup -g 1000 node && adduser -u 1000 -G node -s /bin/sh -D node \
+    && chown node:node ./
 
-WORKDIR /usr/src/app
+COPY --from=base /usr/local/bin/node /usr/local/bin/node
 
-ENV DB_URI=TUSTRINGCONEXIONAQUÍ
+USER node
+#variable de la base de datos
+ENV DB_URI=
 
-COPY  --from=base /usr/src/app/package*.json ./
+COPY --from=build /project/node_modules ./node_modules
+COPY --from=build /project/build ./build
 
-COPY  --from=base /usr/src/app/pnpm-lock.yaml ./
-
-RUN  pnpm i --only=production
-
-COPY --from=build /usr/src/app/build ./build
-
-EXPOSE 3000
-
-CMD ["pnpm","run", "start" ]
+CMD [ "dumb-init", "node", "build/index.js" ]
 
 
 
