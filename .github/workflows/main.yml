@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
               push: true
-              tags: camilodevp/server-bot-telegram:latest
+              tags: camilodevp/server-bot-telegram:2.0
 
       - name: Install Railway
         run: npm i -g @railway/cli
